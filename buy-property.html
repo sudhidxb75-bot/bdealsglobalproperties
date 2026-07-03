@@ -43,7 +43,23 @@
 </header>
 <main>
 <section class="page-hero"><div class="container"><span class="eyebrow">Buy Property</span><h1>Browse verified property options</h1><p>Listings show limited public information only. Submit an enquiry to receive verified details through our team.</p></div></section>
-<section class="section light"><div class="container"><div class="filter-panel"><input id="searchInput" type="search" placeholder="Search by area, type, code, or price range"><select id="typeFilter"><option value="">All Property Types</option><option>Apartment</option><option>Villa</option><option>House</option><option>Land</option><option>Commercial</option></select><button class="btn primary" onclick="applyPropertyFilters()">Search</button></div><div id="propertyList" class="property-grid"></div></div></section>
+<section class="section light"><div class="container"><div class="filter-panel property-filter-panel">
+      <select id="countryFilter" class="country-select visible-country-select">
+        <option value="">Select Country</option>
+      </select>
+      <input id="locationFilter" type="search" placeholder="Location / city / district / area">
+      <input id="searchInput" type="search" placeholder="Search by type, code, price range">
+      <select id="typeFilter">
+        <option value="">All Property Types</option>
+        <option value="Apartment">Apartment</option>
+        <option value="Villa">Villa</option>
+        <option value="House">House</option>
+        <option value="Land">Land</option>
+        <option value="Commercial">Commercial</option>
+      </select>
+      <button class="btn primary" onclick="applyPropertyFilters()">Search</button>
+    </div>
+    <div id="propertyList"  class="property-grid"></div></div></section>
 <section class="section"><div class="container form-shell"><div><span class="eyebrow">Did not find a match?</span><h2>Post your exact requirement</h2><p>Our team will search suitable property options from the backend and contact you.</p></div><a class="btn primary" href="post-requirement.html">Post Requirement</a></div></section></main>
 
 <footer class="site-footer">

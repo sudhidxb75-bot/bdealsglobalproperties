@@ -539,3 +539,55 @@
   color:#b42318;
   border:1px solid #fecdca;
 }
+
+
+/* V1.3.4 visible country and location selectors */
+.country-location-section{
+  padding:22px 0;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+}
+
+.country-location-bar{
+  display:grid;
+  grid-template-columns:.85fr 1.15fr;
+  gap:22px;
+  align-items:end;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 12px 32px rgba(12,38,64,.07);
+}
+
+.country-location-bar h3{
+  margin:10px 0 0;
+  color:var(--primary-2);
+  font-size:24px;
+}
+
+.country-location-controls{
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  gap:12px;
+  align-items:end;
+}
+
+.visible-country-select{
+  min-height:48px;
+}
+
+.property-filter-panel{
+  grid-template-columns:180px 1fr 1fr 210px auto;
+  align-items:end;
+}
+
+@media (max-width: 1060px){
+  .country-location-bar{
+    grid-template-columns:1fr;
+  }
+  .country-location-controls,
+  .property-filter-panel{
+    grid-template-columns:1fr;
+  }
+}

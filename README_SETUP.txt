@@ -230,3 +230,51 @@ Important:
 - This package does not permanently delete active business data.
 - Print sheets are temporary working sheets and can be regenerated any time.
 - Archive sheets preserve old records for future reference.
+
+
+
+V1.3.3 backend connection fix
+-----------------------------
+This version fixes the frontend backend connection logic.
+
+Fixed:
+- Restored fallback countries.
+- Restored fallback banners.
+- Added complete page initialization.
+- Country dropdown now loads on all pages.
+- Banner slider now attempts backend loading.
+- Customer dashboard and seller dashboard initialization restored.
+- Added hidden backend test page:
+  backend-test.html
+
+How to test backend:
+1. Open js/config.js.
+2. Paste your Apps Script Web App URL:
+   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/YOUR_ID/exec";
+3. Upload the website files again.
+4. Open:
+   yourdomain.com/backend-test.html
+5. Click Run Backend Tests.
+
+Correct Apps Script deployment:
+- Deploy > New deployment > Web app
+- Execute as: Me
+- Who has access: Anyone
+- Copy the /exec Web App URL, not the script editor URL.
+
+
+
+V1.3.4 visible country/location selectors
+-----------------------------------------
+The backend country API was working, but the visible country selector was not available on the main property search area.
+
+Added:
+- Homepage Country + Location search bar.
+- Buy Property page Country + Location filters.
+- Country dropdowns are loaded from the backend Countries sheet.
+- Properties API now returns Country and Location fields for filtering.
+
+To test:
+1. Open backend-test.html and confirm Countries test is green.
+2. Open index.html and check Select Your Location section.
+3. Open buy-property.html and check Country dropdown at the top of property listing.

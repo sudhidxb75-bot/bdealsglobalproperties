@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (year) year.textContent = new Date().getFullYear();
 
   loadCountries();
+  applyIncomingPropertyFilters();
   initCustomerDashboard();
   initSellerDashboard();
 
@@ -315,6 +316,37 @@ function startBannerAutoSlide() {
   }, 5000);
 }
 
+
+function goToBuyWithLocation() {
+  const country = document.getElementById("homeCountryFilter")?.value || "";
+  const location = document.getElementById("homeLocationFilter")?.value || "";
+  const params = new URLSearchParams();
+  if (country) params.set("country", country);
+  if (location) params.set("location", location);
+  window.location.href = `buy-property.html${params.toString() ? "?" + params.toString() : ""}`;
+}
+
+function applyIncomingPropertyFilters() {
+  const params = new URLSearchParams(window.location.search);
+  const country = params.get("country") || "";
+  const location = params.get("location") || "";
+
+  const setWhenReady = () => {
+    const countryEl = document.getElementById("countryFilter");
+    const locationEl = document.getElementById("locationFilter");
+
+    if (countryEl && country) countryEl.value = country;
+    if (locationEl && location) locationEl.value = location;
+
+    if ((country || location) && document.getElementById("propertyList")) {
+      setTimeout(() => applyPropertyFilters(), 350);
+    }
+  };
+
+  setTimeout(setWhenReady, 500);
+}
+
+
 /* Properties */
 async function loadPublicProperties() {
   allProperties = SAMPLE_PROPERTIES;
@@ -356,7 +388,7 @@ function renderProperties(targetId, list) {
     const imageStyle = p.imageURL ? `style="--property-image:url('${p.imageURL}')"` : "";
 
     return `
-      <article class="property-card" data-type="${p.propertyType.toLowerCase()}" data-search="${(p.propertyCode + " " + p.propertyType + " " + p.locality + " " + p.area + " " + p.sizeText + " " + p.publicPriceRange + " " + p.highlights).toLowerCase()}">
+      <article class="property-card" data-type="${p.propertyType.toLowerCase()}" data-search="${(p.propertyCode + " " + p.propertyType + " " + p.country + " " + p.location + " " + p.locality + " " + p.area + " " + p.sizeText + " " + p.publicPriceRange + " " + p.highlights).toLowerCase()}">
         <div class="property-img" ${imageStyle}></div>
         <div class="property-body">
           <span class="property-code">${p.propertyCode}</span>
@@ -379,18 +411,25 @@ function renderProperties(targetId, list) {
 }
 
 function applyPropertyFilters() {
+  const country = (document.getElementById("countryFilter")?.value || "").toLowerCase().trim();
+  const location = (document.getElementById("locationFilter")?.value || "").toLowerCase().trim();
   const search = (document.getElementById("searchInput")?.value || "").toLowerCase().trim();
   const type = (document.getElementById("typeFilter")?.value || "").toLowerCase();
 
   const filtered = allProperties.filter(property => {
     const p = normalizeProperty(property);
-    const text = `${p.propertyCode} ${p.propertyType} ${p.locality} ${p.area} ${p.sizeText} ${p.publicPriceRange} ${p.highlights}`.toLowerCase();
-    return (!search || text.includes(search)) && (!type || p.propertyType.toLowerCase() === type);
+    const fullText = `${p.propertyCode} ${p.propertyType} ${p.country} ${p.location} ${p.locality} ${p.area} ${p.sizeText} ${p.publicPriceRange} ${p.highlights}`.toLowerCase();
+    const countryText = `${p.country} ${p.countryName}`.toLowerCase();
+    const locationText = `${p.location} ${p.locality} ${p.area}`.toLowerCase();
+
+    return (!country || countryText.includes(country)) &&
+           (!location || locationText.includes(location)) &&
+           (!search || fullText.includes(search)) &&
+           (!type || p.propertyType.toLowerCase() === type);
   });
 
   renderProperties("propertyList", filtered);
 }
-
 function quickPropertyEnquiry(code) {
   const msg = `I am interested in property code ${code}. Please contact me with verified details.`;
 
@@ -465,6 +504,9 @@ function normalizeProperty(property) {
   return {
     propertyCode: safe(property.propertyCode || property.PropertyCode || ""),
     propertyType: safe(property.propertyType || property.PropertyType || "Property"),
+    country: safe(property.country || property.Country || ""),
+    countryName: safe(property.countryName || property.CountryName || ""),
+    location: safe(property.location || property.Location || ""),
     locality: safe(property.locality || property.Locality || ""),
     area: safe(property.area || property.Area || ""),
     sizeText: safe(property.sizeText || property.SizeText || ""),
@@ -474,7 +516,6 @@ function normalizeProperty(property) {
     imageURL: safe(property.imageURL || property.ImageURL || "")
   };
 }
-
 /* General forms */
 async function submitMediatorForm(event) {
   event.preventDefault();
