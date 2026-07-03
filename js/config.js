@@ -3,5 +3,5 @@
   Example:
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxxxxxx/exec";
 */
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxSPxp6pEKzs--8VfoYuzsyzWgx6V4GwlLgmO4ZIlHrXKKBpUaXqH_fJm3xHtz5Lv1/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzVokpMpcuNjzrw9_LTolUxMGU5AZDPtnyHvsXg8Z6d_W1S75wn5VhjsjSAdRXzY7w7/exec";
 const WHATSAPP_NUMBER = "918921696649"; // Optional fallback. Use country code without +.
